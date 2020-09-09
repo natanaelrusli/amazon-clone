@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom';
 import './Login.css';
-import { auth } from 'firebase';
+import { auth } from './Firebase';
 
 function Login() {
+    const history = useHistory();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -11,11 +12,25 @@ function Login() {
         e.preventDefault(); //Stop The page from refreshing
         // Do the login logic
 
-        auth.signInWitEmailAndPassword(email, password);
-    }
+        auth
+            .signInWithEmailAndPassword(email, password)
+            .then((auth) => {
+                // logged in succesfully, redirect to homepage/...
+                history.push('/');
+            })
+            .catch(e => alert(e.message));
+    };
 
     const register = e => {
         e.preventDefault();
+
+        auth
+            .createUserWithEmailAndPassword(email, password)
+            .then((auth) => {
+                // Create a user and logged in
+                history.push('/');
+            })
+            .catch(e => alert(e.message));
     }
 
     return (
@@ -32,10 +47,10 @@ function Login() {
                 <h1>Sign In</h1>
                 <form action="">
                     <h5>Email</h5>
-                    <input type="email" name="" id=""/>
+                    <input value={email} onChange={event => setEmail(event.target.value)} type="email" name="" id=""/>
 
                     <h5>Password</h5>
-                    <input type="password" name="" id=""/>
+                    <input value={password} onChange={event => setPassword(event.target.value)} type="password" name="" id=""/>
                     
                     <button onClick={login} className = 'login__signInButton' type='submit'>Sign In</button>
                 </form>
