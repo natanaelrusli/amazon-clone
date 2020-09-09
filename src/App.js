@@ -4,6 +4,7 @@ import Header from './Header';
 import Home from './Home';
 import Chekcout from './Chekcout';
 import './App.css';
+import Login from './Login';
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
           </Route>
           
           <Route path="/login">
-            <h1>Login</h1>
+            <Login></Login>
           </Route>
 
           <Route path="/">
